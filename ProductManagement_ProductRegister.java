@@ -1,15 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class POS_SellProcess extends JFrame
+public class ProductManagement_ProductRegister extends JFrame
 {
 	Container mycontainer;
 	JButton button_lise[] = new JButton[4];
 	String str_list[] = {"상품 조회", "상품 등록", "상품 삭제", "뒤로가기"};
 
-	public POS_SellProcess() 
+	public ProductManagement_ProductRegister() 
 	{
-		setTitle("판매 처리");
+		setTitle("재고 관리");
 		setResizable(false); // 정해진 사이즈에서 변경 X
 		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
@@ -30,5 +30,3 @@ public class POS_SellProcess extends JFrame
 		}
 	}
 }
-
-//전에 봐뒀던 소스 참고하기 (포스기 판매창)

@@ -1,41 +1,33 @@
-import java.awt.EventQueue;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.JFrame;
+public class POS_EnterProcess extends JFrame
+{
+	Container mycontainer;
+	JButton button_lise[] = new JButton[4];
+	String str_list[] = {"상품 조회", "상품 등록", "상품 삭제", "뒤로가기"};
 
-public class POS_EnterProcess {
-
-	private JFrame frame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					POS_EnterProcess window = new POS_EnterProcess();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public POS_EnterProcess() 
+	{
+		setTitle("입고 처리");
+		setResizable(false); // 정해진 사이즈에서 변경 X
+		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
+		mycontainer = getContentPane();
+		mycontainer.setLayout(new GridLayout(2, 1));
+		setButton();
+		setVisible(true);
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public POS_EnterProcess() {
-		initialize();
+	void setButton()
+	{
+		mycontainer = getContentPane();
+		mycontainer.setLayout(new GridLayout());
+		for (int nIndex = 0; nIndex < 4; nIndex++)
+		{
+			button_lise[nIndex] = new JButton(str_list[nIndex]);
+			mycontainer.add(button_lise[nIndex]);
+		}
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
 }
+// 1. 현재 재고 상황 ->(한 상품 더블 클릭 시) -> 해당 상품 입고 처리 안내문
