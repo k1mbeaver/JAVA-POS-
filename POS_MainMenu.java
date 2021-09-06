@@ -14,7 +14,7 @@ public class POS_MainMenu extends JFrame
 	public POS_MainMenu() {
 		setTitle("POS Program");
 		setResizable(false); // 정해진 사이즈에서 변경 X
-		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
+		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기`
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
 		mycontainer = getContentPane();
 		mycontainer.setLayout(new GridLayout(2, 1));

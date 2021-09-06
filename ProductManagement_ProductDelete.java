@@ -1,12 +1,18 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class ProductManagement_ProductDelete extends JFrame
 {
 	Container mycontainer;
-	JButton button_lise[] = new JButton[4];
-	String str_list[] = {"상품 조회", "상품 등록", "상품 삭제", "뒤로가기"};
-
+	JButton button_lise[] = new JButton[2];
+	String str_list[] = {"뒤로 가기", "검색"};
+	JPanel IndexPanel = new JPanel();
+	JPanel ButtonPanel = new JPanel();
+	JPanel SearchPanel = new JPanel();
+	
 	public ProductManagement_ProductDelete() 
 	{
 		setTitle("재고 관리");
@@ -14,19 +20,65 @@ public class ProductManagement_ProductDelete extends JFrame
 		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
 		mycontainer = getContentPane();
-		mycontainer.setLayout(new GridLayout(2, 1));
+		mycontainer.setLayout(new GridLayout(3, 1));
 		setButton();
+		setSearchPanel();
+		setIndexPanel();
+		mycontainer.add(SearchPanel);
+		mycontainer.add(IndexPanel);
+		mycontainer.add(ButtonPanel);
 		setVisible(true);
 	}
 
 	void setButton()
 	{
-		mycontainer = getContentPane();
-		mycontainer.setLayout(new GridLayout());
-		for (int nIndex = 0; nIndex < 4; nIndex++)
+		ButtonPanel.setLayout(new FlowLayout());
+		for (int nIndex = 0; nIndex < 2; nIndex++)
 		{
 			button_lise[nIndex] = new JButton(str_list[nIndex]);
-			mycontainer.add(button_lise[nIndex]);
+			
+			if(nIndex == 0) // 뒤로 가기
+			{
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						setVisible(false);
+						new POS_ProductManagement();
+					}
+				});
+			}
+			/*
+			else if(nIndex == 1) // 검색
+			{
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						setVisible(false);
+						new POS_SellProcess();
+					}
+				});
+			}
+			*/
+			ButtonPanel.add(button_lise[nIndex]);
 		}
 	}
+
+	void setSearchPanel()
+	{
+		SearchPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		SearchPanel.add(new JTextField(".... 이름 혹은 번호", 20));
+	}
+	
+	void setIndexPanel()
+	{
+		IndexPanel.setLayout(new FlowLayout());
+		IndexPanel.add(new JTextArea(20, 100));
+	}
+
 }
