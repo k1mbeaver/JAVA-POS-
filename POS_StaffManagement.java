@@ -8,7 +8,7 @@ public class POS_StaffManagement extends JFrame
 {
 	Container mycontainer;
 	JButton button_lise[] = new JButton[2];
-	String str_list[] = {"근무자 등록", "근무자 목록"};
+	String str_list[] = {"근무자 등록", "근무자 목록", "근무자 삭제", "뒤로 가기"};
 
 	public POS_StaffManagement() 
 	{
@@ -54,6 +54,20 @@ public class POS_StaffManagement extends JFrame
 					{
 						setVisible(false);
 						new ProductManagement_ProductRegister();
+					}
+				});
+			}
+			
+			else if(nIndex == 2)
+			{
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						setVisible(false);
+						new POS_MainMenu();
 					}
 				});
 			}

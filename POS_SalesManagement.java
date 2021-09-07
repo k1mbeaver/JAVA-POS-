@@ -7,8 +7,8 @@ import javax.swing.*;
 public class POS_SalesManagement extends JFrame
 {
 	Container mycontainer;
-	JButton button_lise[] = new JButton[2];
-	String str_list[] = {"총 판매금액", "인수인계"};
+	JButton button_lise[] = new JButton[3];
+	String str_list[] = {"총 판매금액", "인수인계", "뒤로가기"};
 
 	public POS_SalesManagement() 
 	{
@@ -26,7 +26,7 @@ public class POS_SalesManagement extends JFrame
 	{
 		mycontainer = getContentPane();
 		mycontainer.setLayout(new GridLayout());
-		for (int nIndex = 0; nIndex < 2; nIndex++)
+		for (int nIndex = 0; nIndex < 3; nIndex++)
 		{
 			button_lise[nIndex] = new JButton(str_list[nIndex]);
 			
@@ -54,6 +54,20 @@ public class POS_SalesManagement extends JFrame
 					{
 						setVisible(false);
 						new SalesManagement_Handover();
+					}
+				});
+			}
+			
+			else if(nIndex == 2)
+			{
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						setVisible(false);
+						new POS_MainMenu();
 					}
 				});
 			}
