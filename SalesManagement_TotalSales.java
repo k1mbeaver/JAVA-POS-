@@ -40,18 +40,21 @@ public class SalesManagement_TotalSales extends JFrame
 		}
 	}
 	
-	class SelectButton extends JPanel{
+	class SelectButton extends JPanel
+	{
 		SelectButton(){
 			setLayout(new GridLayout(1, 2));
 			
-			for(int i = 0; i < 2; i++) {
+			for(int i = 0; i < 2; i++) 
+			{
 				SBtn[i]= new JButton(Str[i]);
 				add(SBtn[i]);
 			}
 		}
 	}
 	
-	public SalesManagement_TotalSales() {
+	public SalesManagement_TotalSales() 
+	{
 		setTitle("매출 관리");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
@@ -63,8 +66,8 @@ public class SalesManagement_TotalSales extends JFrame
 		SelectButton sc = new SelectButton();
 		
 		//금액란
-		tf.setSize(450, 70);
-		tf.setLocation(50, 480);
+		tf.setSize(500, 70);
+		tf.setLocation(15, 480);
 		add(tf);
 		
 		sbtn.setSize(500, 450);
@@ -79,20 +82,24 @@ public class SalesManagement_TotalSales extends JFrame
 		sc.setLocation(530, 480);
 		add(sc);
 		//세부사항
-		SBtn[0].addActionListener(new ActionListener() {
+		SBtn[0].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				setVisible(false);
 				new POS_MainMenu();
 			}
 		});
 		
 			//뒤로가기
-		SBtn[1].addActionListener(new ActionListener() {
+		SBtn[1].addActionListener(new ActionListener() 
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				setVisible(false);
-				new POS_MainMenu();
+				new POS_SalesManagement();
 			}
 		});
 	}

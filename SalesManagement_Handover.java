@@ -52,18 +52,21 @@ public class SalesManagement_Handover extends JFrame
 	}
 	
 	
-	class SelectButton extends JPanel{
+	class SelectButton extends JPanel
+	{
 		SelectButton(){
 			setLayout(new GridLayout(1, 2));
 			
-			for(int i = 0; i < 2; i++) {
+			for(int i = 0; i < 2; i++)
+			{
 				SBtn[i]= new JButton(Str[i]);
 				add(SBtn[i]);
 			}
 		}
 	}
 	
-	public SalesManagement_Handover() {
+	public SalesManagement_Handover()
+	{
 		setTitle("매출 관리");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
@@ -87,20 +90,24 @@ public class SalesManagement_Handover extends JFrame
 		sc.setLocation(530, 480);
 		add(sc);
 		//저장
-		SBtn[0].addActionListener(new ActionListener() {
+		SBtn[0].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				setVisible(false);
 				new POS_MainMenu();
 			}
 		});
 		
 			//뒤로가기
-		SBtn[1].addActionListener(new ActionListener() {
+		SBtn[1].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				setVisible(false);
-				new POS_MainMenu();
+				new POS_SalesManagement();
 			}
 		});
 	}

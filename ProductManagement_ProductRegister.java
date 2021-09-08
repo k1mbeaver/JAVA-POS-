@@ -1,91 +1,92 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
-public class ProductManagement_ProductRegister extends JFrame
+public class ProductManagement_ProductRegister extends JFrame 
 {
-	Container mycontainer;
-	JButton button_lise[] = new JButton[2];
-	String str_list[] = {"뒤로 가기", "등록"};
-	JPanel ButtonPanel = new JPanel();
-	JPanel RegisterPanel = new JPanel();
+	JButton[] SBtn = new JButton[2];
+	String[] Str = {"저장","뒤로가기"};
+	int count =1;
 	
-	public ProductManagement_ProductRegister() 
+	class MainScreen extends JPanel
 	{
-		setTitle("재고 관리");
-		setResizable(false); // 정해진 사이즈에서 변경 X
-		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
-		mycontainer = getContentPane();
-		mycontainer.setLayout(new GridLayout(2, 1));
-		setButton();
-		setRegisterPanel();
-		mycontainer.add(RegisterPanel);
-		mycontainer.add(ButtonPanel);
-		setVisible(true);
-	}
-
-	void setButton()
-	{
-		ButtonPanel.setLayout(new FlowLayout());
-		for (int nIndex = 0; nIndex < 2; nIndex++)
+		MainScreen()
 		{
-			button_lise[nIndex] = new JButton(str_list[nIndex]);
+			setLayout(new GridLayout(4,1));
+			JPanel ProductName = new JPanel();
+			JPanel ProductPrice = new JPanel();
+			JPanel ProductIndex = new JPanel();
+			JPanel ProductNumber = new JPanel();
+			ProductName.add(new JLabel("이름"));
+			ProductName.add(new JTextField(20));
+			ProductNumber.add(new JLabel("번호"));
+			ProductNumber.add(new JTextField(20));
+			ProductPrice.add(new JLabel("가격"));
+			ProductPrice.add(new JTextField(20));
+			ProductIndex.add(new JLabel("재고"));
+			ProductIndex.add(new JTextField(20));
 			
-			if(nIndex == 0) // 뒤로 가기
-			{
-				JButton mybutton = button_lise[nIndex];
-				mybutton.addActionListener(new ActionListener()
-				{
-					@Override
-					public void actionPerformed(ActionEvent e)
-					{
-						setVisible(false);
-						new POS_ProductManagement();
-					}
-				});
-			}
-			/*
-			else if(nIndex == 1) // 등록
-			{
-				JButton mybutton = button_lise[nIndex];
-				mybutton.addActionListener(new ActionListener()
-				{
-					@Override
-					public void actionPerformed(ActionEvent e)
-					{
-						setVisible(false);
-						new POS_SellProcess();
-					}
-				});
-			}
-			*/
-			ButtonPanel.add(button_lise[nIndex]);
+			add(ProductName);
+			add(ProductNumber);
+			add(ProductPrice);
+			add(ProductIndex);
 		}
 	}
-
-	void setRegisterPanel()
+	
+	
+	class SelectButton extends JPanel
 	{
-		RegisterPanel.setLayout(new GridLayout(4,1));
-		JPanel NamePanel = new JPanel();
-		JPanel NumberPanel = new JPanel();
-		JPanel PricePanel = new JPanel();
-		JPanel ProductPanel = new JPanel();
-		NamePanel.add(new JLabel("이름 "));
-		NamePanel.add(new JTextField(20));
-		NumberPanel.add(new JLabel("번호 "));
-		NumberPanel.add(new JTextField(20));
-		PricePanel.add(new JLabel("가격 "));
-		PricePanel.add(new JTextField(20));
-		ProductPanel.add(new JLabel("재고 "));
-		ProductPanel.add(new JTextField(20));
-		RegisterPanel.add(NamePanel);
-		RegisterPanel.add(NumberPanel);
-		RegisterPanel.add(PricePanel);
-		RegisterPanel.add(ProductPanel);
+		SelectButton(){
+			setLayout(new GridLayout(1, 2));
+			
+			for(int i = 0; i < 2; i++) 
+			{
+				SBtn[i]= new JButton(Str[i]);
+				add(SBtn[i]);
+			}
+		}
 	}
 	
+	public ProductManagement_ProductRegister()
+	{
+		setTitle("재고 관리");
+		setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
+		setResizable(false); // 정해진 사이즈에서 변경 X
+		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
+		setVisible(true);
+		MainScreen mbtn = new MainScreen();
+		SelectButton sc = new SelectButton();
 
+		// 입력창
+		mbtn.setSize(700, 450);
+		mbtn.setLocation(150, 20);
+		add(mbtn);
+		
+		sc.setSize(400, 70);
+		sc.setLocation(300, 480);
+		add(sc);
+		// 저장
+		SBtn[0].addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				setVisible(false);
+				new POS_MainMenu();
+			}
+		});
+		
+		// 뒤로가기
+		SBtn[1].addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				setVisible(false);
+				new POS_ProductManagement();
+			}
+		});
+	}
 }

@@ -11,7 +11,8 @@ public class POS_MainMenu extends JFrame
 	JPanel TimePanel = new JPanel();
 	JPanel ButtonPanel = new JPanel();
 
-	public POS_MainMenu() {
+	public POS_MainMenu()
+	{
 		setTitle("POS Program");
 		setResizable(false); // 정해진 사이즈에서 변경 X
 		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기`
@@ -104,7 +105,15 @@ public class POS_MainMenu extends JFrame
 			
 			else if(nIndex == 5) // 종료
 			{
-				
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						System.exit(0);
+					}
+				});
 			}
 			
 			ButtonPanel.add(button_lise[nIndex]);
@@ -114,7 +123,7 @@ public class POS_MainMenu extends JFrame
 	void setMyLabel()
 	{
 		TimePanel.setLayout(new FlowLayout());
-		TimePanel.setBackground(Color.black);
+		TimePanel.setBackground(Color.white);
 		TimePanel.add(new JLabel("POS Program"));
 	}
 }

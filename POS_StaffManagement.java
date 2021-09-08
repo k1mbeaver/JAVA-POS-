@@ -7,7 +7,7 @@ import javax.swing.*;
 public class POS_StaffManagement extends JFrame
 {
 	Container mycontainer;
-	JButton button_lise[] = new JButton[2];
+	JButton button_lise[] = new JButton[4];
 	String str_list[] = {"근무자 등록", "근무자 목록", "근무자 삭제", "뒤로 가기"};
 
 	public POS_StaffManagement() 
@@ -17,7 +17,7 @@ public class POS_StaffManagement extends JFrame
 		setBounds(400, 100, 1000, 600); // 프레임의 위치와 크기
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
 		mycontainer = getContentPane();
-		mycontainer.setLayout(new GridLayout(2, 1));
+		mycontainer.setLayout(new GridLayout(4, 1));
 		setButton();
 		setVisible(true);
 	}
@@ -26,7 +26,7 @@ public class POS_StaffManagement extends JFrame
 	{
 		mycontainer = getContentPane();
 		mycontainer.setLayout(new GridLayout());
-		for (int nIndex = 0; nIndex < 2; nIndex++)
+		for (int nIndex = 0; nIndex < 4; nIndex++)
 		{
 			button_lise[nIndex] = new JButton(str_list[nIndex]);
 			
@@ -39,7 +39,7 @@ public class POS_StaffManagement extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						setVisible(false);
-						new ProductManagement_ProductCheck();
+						new StaffManagement_StaffRegister();
 					}
 				});
 			}
@@ -53,12 +53,26 @@ public class POS_StaffManagement extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						setVisible(false);
-						new ProductManagement_ProductRegister();
+						new StaffManagement_StaffIndex();
 					}
 				});
 			}
 			
 			else if(nIndex == 2)
+			{
+				JButton mybutton = button_lise[nIndex];
+				mybutton.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						setVisible(false);
+						new StaffManagement_StaffDelete();
+					}
+				});
+			}
+			
+			else if(nIndex == 3)
 			{
 				JButton mybutton = button_lise[nIndex];
 				mybutton.addActionListener(new ActionListener()

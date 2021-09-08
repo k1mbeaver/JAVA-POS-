@@ -3,7 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class POS_SellProcess extends JFrame {
+public class POS_SellProcess extends JFrame
+{
 	JButton[] MBtn = new JButton[16];
 	String[] menu = {
 			"1","2","3","4",
@@ -24,8 +25,10 @@ public class POS_SellProcess extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Data,ColName);
 	JTable table = new JTable(model);
 	
-	class Screen extends JPanel{
-		Screen(){
+	class Screen extends JPanel
+	{
+		Screen()
+		{
 			DefaultTableModel m = (DefaultTableModel)table.getModel();
 			table.setRowHeight(50);
 			table.getTableHeader().setFont(new Font("맑은고딕", Font.BOLD, 15));
@@ -33,28 +36,35 @@ public class POS_SellProcess extends JFrame {
 		}
 	}
 	
-	class MenuBtn extends JPanel{
-		MenuBtn(){
+	class MenuBtn extends JPanel
+	{
+		MenuBtn()
+		{
 			setLayout(new GridLayout(6,3,3,3));
-			for(int i=0;i<MBtn.length;i++) {
+			for(int i=0;i<MBtn.length;i++) 
+			{
 				MBtn[i]= new JButton(menu[i]);
 				add(MBtn[i]);
 			}
 		}
 	}
 	
-	class StrBtn extends JPanel{
-		StrBtn(){
+	class StrBtn extends JPanel
+	{
+		StrBtn()
+		{
 			setLayout(new GridLayout(1,4,3,3));
 			
-			for(int i=0;i<Str.length;i++) {
+			for(int i=0;i<Str.length;i++) 
+			{
 				SBtn[i]= new JButton(Str[i]);
 				add(SBtn[i]);
 			}
 		}
 	}
 	
-	public POS_SellProcess() {
+	public POS_SellProcess() 
+	{
 		setTitle("판매 처리");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 안정적인 종료를 위함
@@ -83,11 +93,14 @@ public class POS_SellProcess extends JFrame {
 		add(sbtn);
 		
 		//메뉴추가
-		for(int i=0;i<MBtn.length;i++) {
+		for(int i=0;i<MBtn.length;i++) 
+		{
 			final int index =i;
-			MBtn[i].addActionListener(new ActionListener() {
+			MBtn[i].addActionListener(new ActionListener()
+			{
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e)
+				{
 					JButton MBtn = (JButton)e.getSource();
 					DefaultTableModel m = (DefaultTableModel)table.getModel();
 					m.addRow(new Object[]{menu[index],count,price[index]});
@@ -95,18 +108,22 @@ public class POS_SellProcess extends JFrame {
 			});
 		}
 		//쿠폰
-		SBtn[0].addActionListener(new ActionListener() {
+		SBtn[0].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				setVisible(false);
 				new POS_MainMenu();
 			}
 		});
 		
 			//선택취소
-		SBtn[1].addActionListener(new ActionListener() {
+		SBtn[1].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				JButton MBtn = (JButton)e.getSource();
 				DefaultTableModel m = (DefaultTableModel)table.getModel();
 				
@@ -116,9 +133,11 @@ public class POS_SellProcess extends JFrame {
 		
 		
 		//전체취소
-		SBtn[2].addActionListener(new ActionListener() {
+		SBtn[2].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				JButton MBtn = (JButton)e.getSource();
 				DefaultTableModel m = (DefaultTableModel)table.getModel();
 				
@@ -128,13 +147,16 @@ public class POS_SellProcess extends JFrame {
 		});
 		
 		//결제버튼
-		SBtn[3].addActionListener(new ActionListener() {
+		SBtn[3].addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				JButton MBtn = (JButton)e.getSource();
 				int rowCont = table.getRowCount();
 				int sum =0;
-				for(int i=0;i<rowCont;i++) {
+				for(int i=0;i<rowCont;i++)
+				{
 					sum += (int)table.getValueAt(i, 2);
 				}
 				tf.setText(String.valueOf(" 총 금액 : "+sum));
