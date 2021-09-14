@@ -1,50 +1,133 @@
-package test;
+import java.sql.*;
+import java.util.ArrayList;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+public class DAO {
 
-public class ConnectionTest {
-    public static void main(String[] args) {
-        // Connection 객체를 자동완성으로 import할 때는 com.mysql.connection이 아닌
-        // java 표준인 java.sql.Connection 클래스를 import해야 한다.
-        Connection conn = null;
+	// Connection은 데이터베이스와 연결하는 객체이다.
+	Connection conn = null;
+	// ResultSet : 실행한 쿼리문의 값을 받는 객체
+	ResultSet rs = null;
+	Statement st = null; // 그냥 가져오는거
+	// PreparedStatement는 쿼리문에 ?를 사용해서 추가로 ?에 변수를 할당해 줄수 있도록 하는 객체
+	PreparedStatement ps = null; // ?넣어서 집어넣는거
 
-        try{
-            // 1. 드라이버 로딩
-            // 드라이버 인터페이스를 구현한 클래스를 로딩
-            // mysql, oracle 등 각 벤더사 마다 클래스 이름이 다르다.
-            // mysql은 "com.mysql.jdbc.Driver"이며, 이는 외우는 것이 아니라 구글링하면 된다.
-            // 참고로 이전에 연동했던 jar 파일을 보면 com.mysql.jdbc 패키지에 Driver 라는 클래스가 있다.
-            Class.forName("com.mysql.jdbc.Driver");
+	// 생성자
+	public DAO() {
 
-            // 2. 연결하기
-            // 드라이버 매니저에게 Connection 객체를 달라고 요청한다.
-            // Connection을 얻기 위해 필요한 url 역시, 벤더사마다 다르다.
-            // mysql은 "jdbc:mysql://localhost/사용할db이름" 이다.
-            String url = "jdbc:mysql://localhost/dev";
+		try {
+			String user = "system";
+			String pw = "1234";
+			String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 
-            // @param  getConnection(url, userName, password);
-            // @return Connection
-            conn = DriverManager.getConnection(url, "dev", "dev");
-            System.out.println("연결 성공");
+			// jdbc drive를 등록하는 과정
+			// class.forName을 호출하면 Driver가 자기자신을 초기화하여 DriverManager에 등록한다.
+			// 즉, 개발자가 따로 관리하지 않는 static 객체들이 알아서 DriverManager에 등록되는 것이다.
+			// 그래서 Class.forName()을 호출하고 나서 어떤 인자로도 전달하지 않고 바로 getConnection()을 호출해도 드라이버가 찾아진다.
+			
+			// Driver Class를 로딩하면 객체가 생성되고, DriverManager에 등록된다.
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			// connection으로 db와 연결 (객체 생성)
+			conn = DriverManager.getConnection(url, user, pw);
 
-        }
-        catch(ClassNotFoundException e){
-            System.out.println("드라이버 로딩 실패");
-        }
-        catch(SQLException e){
-            System.out.println("에러: " + e);
-        }
-        finally{
-            try{
-                if( conn != null && !conn.isClosed()){
-                    conn.close();
-                }
-            }
-            catch( SQLException e){
-                e.printStackTrace();
-            }
-        }
-    }
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("DB 드라이버 로딩 실패 :" + cnfe.toString());
+		} catch (SQLException sqle) {
+			System.out.println("DB 접속실패 : " + sqle.toString());
+		} catch (Exception e) {
+			System.out.println("Unkonwn error");
+			e.printStackTrace();
+		}
+	}
+
+	// 사용하지 않는 자원이 유지 되기 때문에 자원이 낭비된다.
+	public void dbClose() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (st != null)
+				st.close();
+			if (ps != null)
+				ps.close();
+		} catch (Exception e) {
+			System.out.println(e + "=> dbClose fail");
+		}
+	}
+
+	// Create
+	public void insertData(Data data) {
+		try {
+			String sql = "INSERT INTO CRUD_TABLE(name, age) values(?, ?)";
+			// PrparedStatment객체 생성, 인자로 sql문이 주어짐
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, data.strName);
+			ps.setString(2, data.strNumber);
+			ps.setInt(3, data.nPrice);
+			ps.setInt(4, data.nStock);
+			// executeUpdate : insert, delete, update와 같이 값을 받아오지 않는 쿼리문 실행
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+	}
+
+	// Read
+	public ArrayList<Data> readData() {
+		ArrayList<Data> arr = new ArrayList<Data>();
+		System.out.println(arr);
+		try {
+			// 쿼리문을 db에 넘김, 온전한 문자열 대입
+			st = conn.createStatement();
+
+			String sql = "SELECT * FROM CRUD_TABLE ORDER BY AGE ASC";
+			//rs:ResultSet은 실행한 쿼리문의 결과 값을 받아들이다.
+			rs = st.executeQuery(sql);
+
+			// 받은 결과값을 출력
+			while (rs.next()) {
+				arr.add(new Data(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return arr;
+	}
+
+	// Update
+	public void updateData(Data data) {
+		try {
+			String sql = "UPDATE CRUD_TABLE SET AGE=? WHERE NAME=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, data.strName);
+			ps.setString(2, data.strNumber);
+			ps.setInt(3, data.nPrice);
+			ps.setInt(4, data.nStock);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+	}
+
+	// Delete
+	public void deleteData(String name) {
+		try {
+
+			String sql = "DELETE FROM CRUD_TABLE WHERE NAME=?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+	}
 }
