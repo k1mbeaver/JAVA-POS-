@@ -10,14 +10,16 @@ public class DAO {
 	Statement st = null; // 그냥 가져오는거
 	// PreparedStatement는 쿼리문에 ?를 사용해서 추가로 ?에 변수를 할당해 줄수 있도록 하는 객체
 	PreparedStatement ps = null; // ?넣어서 집어넣는거
+	String usePos;
+	String showProducts;
 
 	// 생성자
 	public DAO() {
 
 		try {
-			String user = "system";
-			String pw = "1234";
-			String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+			String user = "root";
+			String pw = "rlatmddnr48!";
+			String url = "jdbc:mysql://127.0.0.1/?useSSL=false&user=root&password=rlatmddnr48!";
 
 			// jdbc drive를 등록하는 과정
 			// class.forName을 호출하면 Driver가 자기자신을 초기화하여 DriverManager에 등록한다.
@@ -25,9 +27,24 @@ public class DAO {
 			// 그래서 Class.forName()을 호출하고 나서 어떤 인자로도 전달하지 않고 바로 getConnection()을 호출해도 드라이버가 찾아진다.
 			
 			// Driver Class를 로딩하면 객체가 생성되고, DriverManager에 등록된다.
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			// connection으로 db와 연결 (객체 생성)
 			conn = DriverManager.getConnection(url, user, pw);
+			System.out.println("DB 드라이버 로딩 성공! :");
+			st = conn.createStatement();
+			usePos = "use POS";
+			st.executeUpdate(usePos);
+			
+			showProducts = "select * from products";
+			rs = st.executeQuery(showProducts);
+			while(rs.next())
+			{
+				System.out.printf("%-14s\t\n", rs.getString(1));
+				System.out.printf("%-14s\t\n", rs.getString(2));
+				System.out.printf("%-14s\t\n", rs.getInt(3));
+				System.out.printf("%-14s\t\n", rs.getInt(4));
+			}
+			
 
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("DB 드라이버 로딩 실패 :" + cnfe.toString());
@@ -96,7 +113,13 @@ public class DAO {
 		}
 		return arr;
 	}
-
+	
+	public String readProductsName() throws Exception
+	{
+		String productsName = rs.getString(1);
+		
+		return productsName;	
+	}
 	// Update
 	public void updateData(Data data) {
 		try {
