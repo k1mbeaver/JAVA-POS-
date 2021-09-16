@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -7,15 +9,15 @@ public class POS_SellProcess extends JFrame
 {
 	JButton[] MBtn = new JButton[16];
 	String[] menu = {
-			"1","2","3","4",
-			"5","6","7","8",
-			"9","10","11","12",
-			"13","14","15","16"};
+			"녹차라떼","더치커피","딸기라떼","딸기요거트스무디",
+			"레몬에이드","블루베리요거트스무디","아메리카노","아이스티",
+			"자몽에이드","초코쿠키프라페","카라멜 마끼아또","카페라떼",
+			"카페모카","콜드브루","플레인요거트스무디","헤이즐넛 라떼"};
 	int[] price = {
-			1500,1800,2500,2500,
-			3000,3000,3500,3500,
-			3500,2500,3500,3500,
-			4000,4000,3000,3000};
+			3500,3000,3500,4500,
+			3500,4500,1500,2000,
+			3500,4500,3500,2500,
+			4000,3000,3500,3000};
 	JTextField tf = new JTextField(30);
 	JButton[] SBtn = new JButton[4];
 	String[] Str = {"뒤로가기","선택취소","전체취소","결제"};

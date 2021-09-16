@@ -30,22 +30,13 @@ public class DAO {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// connection으로 db와 연결 (객체 생성)
 			conn = DriverManager.getConnection(url, user, pw);
-			System.out.println("DB 드라이버 로딩 성공! :");
 			st = conn.createStatement();
 			usePos = "use POS";
 			st.executeUpdate(usePos);
 			
 			showProducts = "select * from products";
 			rs = st.executeQuery(showProducts);
-			while(rs.next())
-			{
-				System.out.printf("%-14s\t\n", rs.getString(1));
-				System.out.printf("%-14s\t\n", rs.getString(2));
-				System.out.printf("%-14s\t\n", rs.getInt(3));
-				System.out.printf("%-14s\t\n", rs.getInt(4));
-			}
-			
-
+		
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("DB 드라이버 로딩 실패 :" + cnfe.toString());
 		} catch (SQLException sqle) {
@@ -73,7 +64,7 @@ public class DAO {
 	// Create
 	public void insertData(Data data) {
 		try {
-			String sql = "INSERT INTO CRUD_TABLE(name, age) values(?, ?)";
+			String sql = "INSERT INTO CRUD_TABLE(strName, strNumber, nPrice, nStock) values(?, ?, ?, ?)";
 			// PrparedStatment객체 생성, 인자로 sql문이 주어짐
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, data.strName);
@@ -92,7 +83,7 @@ public class DAO {
 	// Read
 	public ArrayList<Data> readData() {
 		ArrayList<Data> arr = new ArrayList<Data>();
-		System.out.println(arr);
+		
 		try {
 			// 쿼리문을 db에 넘김, 온전한 문자열 대입
 			st = conn.createStatement();
@@ -104,6 +95,7 @@ public class DAO {
 			// 받은 결과값을 출력
 			while (rs.next()) {
 				arr.add(new Data(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+				System.out.printf("%s\n", arr.get(1));
 			}
 
 		} catch (SQLException e) {
@@ -111,15 +103,11 @@ public class DAO {
 		} finally {
 			dbClose();
 		}
-		return arr;
-	}
-	
-	public String readProductsName() throws Exception
-	{
-		String productsName = rs.getString(1);
 		
-		return productsName;	
-	}
+		
+		return arr;
+	}	
+	
 	// Update
 	public void updateData(Data data) {
 		try {
